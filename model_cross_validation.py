@@ -117,7 +117,7 @@ if __name__ == '__main__':
         hist = model.fit([u_train, f_global[train]],
                          y[train],
                          epochs=200,
-                         batch_size=128,
+                         batch_size=80,
                          verbose=2,
                          callbacks=callback_list,
                          validation_data=([u_test, f_global[test]], y[test]))

@@ -115,8 +115,8 @@ def create_model(u_train, x_train, y_train, u_test, x_test, y_test):
             mode='max'
         )
     ]
-
-    hist = model.fit([u_train, x_train], y_train, batch_size=128, epochs={{choice([100, 150, 200])}}, verbose=2,
+    # origin batch_size = 128
+    hist = model.fit([u_train, x_train], y_train, batch_size=80, epochs={{choice([100, 150, 200])}}, verbose=2,
                      callbacks=callback_list, validation_data=([u_test, x_test], y_test))
     h = hist.history
     acc = np.asarray(h['acc'])
