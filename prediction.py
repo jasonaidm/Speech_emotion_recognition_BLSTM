@@ -30,13 +30,17 @@ if __name__ == '__main__':
     # feature_extract = options.feature_extract
     model_path = options.model_path
     nb_classes = options.nb_classes
-
+    """wav_path = '03b03Wc.wav'
+    model_path = 'weights_3_fold.h5'
+    nb_classes = 7"""
     globalvars.nb_classes = nb_classes
 
     y, sr = librosa.load(wav_path, sr=16000)
-    wav = AudioSegment.from_file(wav_path)
+    # wav = AudioSegment.from_file(wav_path)
+    # shape: 1*1024*383
     f = extract(y, sr)
 
+    # 创建初始填充值为0.0039的 1*256 向量
     u = np.full((f.shape[0], globalvars.nb_attention_param), globalvars.attention_init_value,
                 dtype=np.float32)
 

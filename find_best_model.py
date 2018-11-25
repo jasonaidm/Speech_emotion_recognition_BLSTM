@@ -151,9 +151,9 @@ if __name__ == '__main__':
     feature_extract = options.feature_extract
     nb_classes = options.nb_classes
 
-    globalvars.dataset = dataset
+    globalvars.dataset = dataset  # 情感数据集名称
     globalvars.nb_classes = nb_classes
-
+    import pdb;pdb.set_trace()
     if load_data:
         ds = Dataset(path=path, dataset=dataset)
 
@@ -196,3 +196,9 @@ if __name__ == '__main__':
     except IOError:
         print("No training data found, please run with -d [data set], -p [data path], -l and -e "
               "for dumping data at first...")
+
+
+
+
+
+

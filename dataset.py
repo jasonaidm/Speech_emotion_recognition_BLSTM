@@ -8,7 +8,7 @@ class Dataset:
 
     def __init__(self, path, dataset, decode=False):
         self.dataset = dataset
-        if dataset == "berlin":
+        if dataset == "berlin":  # 4代表angry？
             self.classes = {0: 'W', 1: 'L', 2: 'E', 3: 'A', 4: 'F', 5: 'T', 6: 'N'}
             self.get_berlin_dataset(path)
         elif dataset == "dafex":
@@ -27,7 +27,7 @@ class Dataset:
         self.train_sets = []
         self.test_sets = []
         get_data = True
-        for speak_test in itertools.product(males, females):  # test_couples:
+        for speak_test in itertools.product(males, females):  # test_couples 笛卡尔积的元组
             i = 0
             train = []
             test = []
@@ -36,9 +36,9 @@ class Dataset:
                 y, sr = librosa.load(audio_path, sr=16000)
                 if get_data:
                     self.data.append((y, sr))
-                    self.targets.append(classes[audio[5]])
+                    self.targets.append(classes[audio[5]])  # 聲音文件名的第6个字符,即情绪标签
                 if audio[:2] in speak_test:
-                    test.append(i)
+                    test.append(i)  # 存储索引号
                 else:
                     train.append(i)
                 i = i + 1

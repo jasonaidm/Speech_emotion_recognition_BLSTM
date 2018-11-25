@@ -57,12 +57,13 @@ def normalize(snd_data):
     return r
 
 
+# 特征提取
 def extract_dataset(data, nb_samples, dataset, save=True):
     f_global = []
 
     i = 0
     for (x, Fs) in data:
-        # 34D short-term feature
+        # 34D short-term feature,
         f = audioFeatureExtraction.stFeatureExtraction(x, Fs, globalvars.frame_size * Fs, globalvars.step * Fs)
 
         # for pyAudioAnalysis which support python3
@@ -74,7 +75,7 @@ def extract_dataset(data, nb_samples, dataset, save=True):
         f = np.append(f, hr_pitch.transpose(), axis=0)
 
         # Z-normalized
-        f = stats.zscore(f, axis=0)
+        f = stats.zscore(f, axis=0)  # Z-score
 
         f = f.transpose()
 
@@ -100,24 +101,29 @@ def extract_dataset(data, nb_samples, dataset, save=True):
 def extract(x, sr=16000):
     f_global = []
 
-    # 34D short-term feature
+    # 34D short-term feature  zjx: 提取音频信号的短期特征序列,34维度  34*383
+    # frame_size = 0.025  # 25 msec segments, step = 0.01     # 10 msec time step
+    # 此功能实现短期窗口化过程。 对于每个短期窗口，提取一组特征。特征向量结果存储在numpy矩阵中
     f = audioFeatureExtraction.stFeatureExtraction(x, sr, globalvars.frame_size * sr, globalvars.step * sr)
 
     # for pyAudioAnalysis which support python3
     if type(f) is tuple:
         f = f[0]
 
-    # Harmonic ratio and pitch, 2D
+    # Harmonic ratio and pitch, 2D  zjx:谐波比和音调  383*2
     hr_pitch = audioFeatureExtraction.stFeatureSpeed(x, sr, globalvars.frame_size * sr, globalvars.step * sr)
-    f = np.append(f, hr_pitch.transpose(), axis=0)
+    f = np.append(f, hr_pitch.transpose(), axis=0)  # zjx:36*383
 
     # Z-normalized
     f = stats.zscore(f, axis=0)
 
     f = f.transpose()
 
-    f_global.append(f)
+    f_global.append(f)  # zjx:36*383
 
+    # globalvars.max_len = 1024, padding：‘pre’或‘post’，确定当需要补0时，在序列的起始还是结尾补
+    # globalvars.masking_value = -100, 浮点数，此值将在填充时代替默认的填充值0,
+    # shape: 1*1024*383
     f_global = sequence.pad_sequences(f_global,
                                       maxlen=globalvars.max_len,
                                       dtype='float32',

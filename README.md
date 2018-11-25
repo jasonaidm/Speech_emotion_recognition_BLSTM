@@ -22,6 +22,12 @@ Environment:
 # Datasets
 
 - [Berlin speech dataset](http://emodb.bilderbar.info/download/)
+  
+  有7种情绪，每一种情绪有50个WAV音频，16000采样率.
+  
+  音频文件名格式说明：(1)文件名前两个数字为speaker编号，其中['03', '10', '11', '12', '15']为男speaker，
+  其余为女speaker.(2)文件名中的第3-5字符为句子编号(总共10个句子).(3)大写字母是情绪标签，
+  {'W':aneger,'L':'boredom','E':'disgust','A':'anxiety/fear','F':'happiness','T':'sadness','N':'neutral'}
 
 # Usage
 
